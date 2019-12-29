@@ -7,7 +7,8 @@ class RandomUsersRemoteSource(
 ) : UsersRemoteSource {
 
     override suspend fun fetchUsers(
-        limit: Int
-    ): List<User> = randomUsersApiService.fetchRandomUsers(limit).results
+        limit: Int,
+        page: Int
+    ): List<User> = randomUsersApiService.fetchRandomUsers(limit, page).results
 
 }

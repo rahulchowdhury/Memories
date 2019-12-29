@@ -43,15 +43,16 @@ class RandomUsersRemoteSourceTest {
             )
         )
         val limit = 1
+        val page = 1
 
         runBlocking {
-            `when`(randomUsersApiService.fetchRandomUsers(limit)).thenReturn(seedRandomUsers)
+            `when`(randomUsersApiService.fetchRandomUsers(limit, page)).thenReturn(seedRandomUsers)
 
-            val users = randomUsersRemoteSource.fetchUsers(limit)
+            val users = randomUsersRemoteSource.fetchUsers(limit, page)
 
             assertThat(users).isEqualTo((seedRandomUsers.results))
 
-            verify(randomUsersApiService).fetchRandomUsers(limit)
+            verify(randomUsersApiService).fetchRandomUsers(limit, page)
             verifyNoMoreInteractions(randomUsersApiService)
         }
     }
@@ -59,11 +60,12 @@ class RandomUsersRemoteSourceTest {
     @Test(expected = RuntimeException::class)
     fun `should throw exception for api error`() {
         val limit = 1
+        val page = 1
 
         runBlocking {
-            `when`(randomUsersApiService.fetchRandomUsers(limit)).thenThrow(RuntimeException())
+            `when`(randomUsersApiService.fetchRandomUsers(limit, page)).thenThrow(RuntimeException())
 
-            randomUsersRemoteSource.fetchUsers(limit)
+            randomUsersRemoteSource.fetchUsers(limit, page)
         }
     }
 
