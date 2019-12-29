@@ -3,7 +3,7 @@ package co.rahulchowdhury.memories.data.source.remote
 import co.rahulchowdhury.memories.data.model.remote.Login
 import co.rahulchowdhury.memories.data.model.remote.Picture
 import co.rahulchowdhury.memories.data.model.remote.RandomUsers
-import co.rahulchowdhury.memories.data.model.remote.User
+import co.rahulchowdhury.memories.data.model.remote.RemotePhoto
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -15,24 +15,23 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
-class RandomUsersRemoteSourceTest {
+class RandomPhotosRemoteSourceTest {
 
     @Mock
     private lateinit var randomUsersApiService: RandomUsersApiService
 
-    private lateinit var randomUsersRemoteSource: RandomUsersRemoteSource
+    private lateinit var randomUsersRemoteSource: RandomPhotosRemoteSource
 
     @Before
     fun setUp() {
-        randomUsersRemoteSource = RandomUsersRemoteSource(randomUsersApiService)
+        randomUsersRemoteSource = RandomPhotosRemoteSource(randomUsersApiService)
     }
 
     @Test
     fun `should return a list of random users from the api`() {
         val seedRandomUsers = RandomUsers(
             results = listOf(
-                User(
-                    email = "rahul@rahul.com",
+                RemotePhoto(
                     login = Login(uuid = UUID.randomUUID().toString()),
                     picture = Picture(
                         large = "large.jpg",
@@ -48,7 +47,7 @@ class RandomUsersRemoteSourceTest {
         runBlocking {
             `when`(randomUsersApiService.fetchRandomUsers(limit, page)).thenReturn(seedRandomUsers)
 
-            val users = randomUsersRemoteSource.fetchUsers(limit, page)
+            val users = randomUsersRemoteSource.fetchPhotos(limit, page)
 
             assertThat(users).isEqualTo((seedRandomUsers.results))
 
@@ -65,7 +64,7 @@ class RandomUsersRemoteSourceTest {
         runBlocking {
             `when`(randomUsersApiService.fetchRandomUsers(limit, page)).thenThrow(RuntimeException())
 
-            randomUsersRemoteSource.fetchUsers(limit, page)
+            randomUsersRemoteSource.fetchPhotos(limit, page)
         }
     }
 
