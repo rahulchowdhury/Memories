@@ -17,18 +17,12 @@ class GalleryFragment : BaseFragment() {
     lateinit var galleryAdapter: GalleryAdapter
     private val viewModel: GalleryViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setupGalleryAdapter()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupGalleryAdapter()
+
         viewModel.photos.observe(viewLifecycleOwner, Observer { pagedList ->
             galleryAdapter.submitList(pagedList)
         })
-
-        viewModel.loadPhotos()
     }
 
     private fun setupGalleryAdapter() {

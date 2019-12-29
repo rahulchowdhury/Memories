@@ -8,14 +8,14 @@ import co.rahulchowdhury.memories.data.model.local.Photo
 import co.rahulchowdhury.memories.data.repo.PhotosRepository
 
 class GalleryViewModel(
-    private val photosRepository: PhotosRepository
+    photosRepository: PhotosRepository
 ) : ViewModel() {
 
-    lateinit var photos: LiveData<PagedList<Photo>>
+    val photos: LiveData<PagedList<Photo>>
 
-    fun loadPhotos() {
+    init {
         photosRepository.coroutineScope = viewModelScope
-
         photos = photosRepository.loadPhotos()
     }
+
 }
