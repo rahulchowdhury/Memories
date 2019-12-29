@@ -10,10 +10,11 @@ import co.rahulchowdhury.memories.data.source.remote.PhotosRemoteSource
 import kotlinx.coroutines.CoroutineScope
 
 class DefaultPhotosRepository(
-    private val coroutineScope: CoroutineScope,
     private val photosLocalSource: PhotosLocalSource,
     private val photosRemoteSource: PhotosRemoteSource
 ) : PhotosRepository {
+
+    override lateinit var coroutineScope: CoroutineScope
 
     override fun loadPhotos(): LiveData<PagedList<Photo>> {
         val photosDataSourceFactory = photosLocalSource.loadAll()
