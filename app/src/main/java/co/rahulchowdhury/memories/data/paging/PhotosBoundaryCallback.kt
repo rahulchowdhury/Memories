@@ -42,6 +42,7 @@ class PhotosBoundaryCallback(
             val photos = remotePhotos.map { it.toPhoto() }
             photosLocalSource.save(photos)
 
+            currentPage++
             isLoadingData = false
         }
     }

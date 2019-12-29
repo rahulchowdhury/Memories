@@ -26,8 +26,8 @@ class DefaultPhotosRepository(
         )
 
         val config = PagedList.Config.Builder()
-            .setInitialLoadSizeHint(60)
-            .setPageSize(60)
+            .setInitialLoadSizeHint(90)
+            .setPageSize(90)
             .build()
 
         return LivePagedListBuilder(photosDataSourceFactory, config)

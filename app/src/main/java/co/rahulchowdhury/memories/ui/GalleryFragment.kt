@@ -30,6 +30,7 @@ class GalleryFragment : BaseFragment() {
 
         photoGallery.layoutManager = GridLayoutManager(context, 3)
         photoGallery.adapter = galleryAdapter
+        photoGallery.setHasFixedSize(true)
     }
 
 }
