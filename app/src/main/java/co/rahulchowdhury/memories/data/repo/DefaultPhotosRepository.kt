@@ -3,6 +3,7 @@ package co.rahulchowdhury.memories.data.repo
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import co.rahulchowdhury.memories.data.Constants
 import co.rahulchowdhury.memories.data.model.local.Photo
 import co.rahulchowdhury.memories.data.paging.PhotosBoundaryCallback
 import co.rahulchowdhury.memories.data.source.local.PhotosLocalSource
@@ -26,8 +27,8 @@ class DefaultPhotosRepository(
         )
 
         val config = PagedList.Config.Builder()
-            .setInitialLoadSizeHint(90)
-            .setPageSize(90)
+            .setInitialLoadSizeHint(Constants.Paging.FIRST_LOAD_SIZE)
+            .setPageSize(Constants.Paging.PAGE_SIZE)
             .build()
 
         return LivePagedListBuilder(photosDataSourceFactory, config)
