@@ -23,6 +23,10 @@ class GalleryAdapter : PagedListAdapter<Photo, GalleryAdapter.ViewHolder>(PHOTOS
         holder.bind(getItem(position))
     }
 
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+    }
+
     class ViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
