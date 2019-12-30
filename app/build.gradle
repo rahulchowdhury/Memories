@@ -65,6 +65,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
+    // Monet - Custom image loading implementation
+    implementation project(":monet")
+
     // Testing
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"

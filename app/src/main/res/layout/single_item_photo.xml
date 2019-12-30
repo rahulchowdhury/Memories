@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<co.rahulchowdhury.memories.ui.widget.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="4dp">
 
-    <TextView
-        android:id="@+id/photoId"
+    <ImageView
+        android:id="@+id/photoItem"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@android:color/darker_gray" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+</co.rahulchowdhury.memories.ui.widget.SquareFrameLayout>

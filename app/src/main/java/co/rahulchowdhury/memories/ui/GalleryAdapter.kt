@@ -8,7 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.rahulchowdhury.memories.R
 import co.rahulchowdhury.memories.data.model.local.Photo
+import co.rahulchowdhury.monet.loadUsingMonet
 import kotlinx.android.synthetic.main.single_item_photo.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 class GalleryAdapter : PagedListAdapter<Photo, GalleryAdapter.ViewHolder>(PHOTOS_COMPARATOR) {
 
@@ -24,15 +28,23 @@ class GalleryAdapter : PagedListAdapter<Photo, GalleryAdapter.ViewHolder>(PHOTOS
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        super.onViewRecycled(holder)
+        //holder.job.cancel()
     }
 
     class ViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
 
+        val job = Job()
+        private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+
         fun bind(photo: Photo?) {
-            itemView.photoId.text = photo?.uuid
+            photo?.let {
+                loadUsingMonet(coroutineScope) {
+                    url = it.originalUrl
+                    targetImageView = itemView.photoItem
+                }
+            }
         }
 
     }
