@@ -1,9 +1,8 @@
 package co.rahulchowdhury.monet
 
-import android.widget.ImageView
+import kotlinx.coroutines.Job
 
 data class MonetContext(
-    var url: String = "",
-    var placeholder: String = "",
-    var targetImageView: ImageView? = null
+    var job: Job = Job(),
+    var placeholder: String = ""
 )

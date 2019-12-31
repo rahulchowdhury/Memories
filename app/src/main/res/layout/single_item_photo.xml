@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="4dp">
+    android:padding="2dp">
 
     <ImageView
         android:id="@+id/photoItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:background="@android:color/darker_gray"/>
 
 </co.rahulchowdhury.memories.ui.widget.SquareFrameLayout>

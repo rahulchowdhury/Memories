@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.rahulchowdhury.memories.R
 import co.rahulchowdhury.memories.data.model.local.Photo
-import co.rahulchowdhury.monet.loadUsingMonet
+import co.rahulchowdhury.monet.load
 import kotlinx.android.synthetic.main.single_item_photo.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 
 class GalleryAdapter : PagedListAdapter<Photo, GalleryAdapter.ViewHolder>(PHOTOS_COMPARATOR) {
@@ -28,23 +26,31 @@ class GalleryAdapter : PagedListAdapter<Photo, GalleryAdapter.ViewHolder>(PHOTOS
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        //holder.job.cancel()
+        val job = holder.imageJob
+
+        if (job.isActive) {
+            job.cancel()
+        }
+
+        holder.clearImage()
     }
 
     class ViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
 
-        val job = Job()
-        private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+        lateinit var imageJob: Job
 
         fun bind(photo: Photo?) {
+            imageJob = Job()
+
             photo?.let {
-                loadUsingMonet(coroutineScope) {
-                    url = it.originalUrl
-                    targetImageView = itemView.photoItem
-                }
+                itemView.photoItem.load(it.originalUrl) { job = imageJob }
             }
+        }
+
+        fun clearImage() {
+            itemView.photoItem.setImageBitmap(null)
         }
 
     }
