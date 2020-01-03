@@ -10,7 +10,7 @@ fun ImageView.load(url: String, block: MonetContext.() -> Unit) {
     val coroutineScope = CoroutineScope(Dispatchers.Main + monetContext.job)
 
     coroutineScope.launch {
-        val bitmap = loadIntoBitmap(url)
+        val bitmap = loadIntoBitmap(resources, url)
         setImageBitmap(bitmap)
     }
 }
