@@ -20,7 +20,7 @@ val memoryCache: LruCache<String, Bitmap> by lazy {
     }
 }
 
-internal suspend fun loadIntoBitmap(url: String): Bitmap =
+internal suspend fun loadIntoBitmap(url: String): Bitmap? =
     withContext(Dispatchers.IO) {
         val cachedBitmap = memoryCache[url]
         cachedBitmap?.let { return@withContext it }
@@ -31,8 +31,13 @@ internal suspend fun loadIntoBitmap(url: String): Bitmap =
             // coming from the server is already a low-res
             // image. Therefore, we are intentionally skipping
             // the extra processing (calculating bitmap dimens, etc)
-            val decodedBitmap = BitmapFactory.decodeStream(it)
-            memoryCache.put(url, decodedBitmap)
+            val bitmapConfig = BitmapFactory.Options().apply {
+                inPreferredConfig = Bitmap.Config.RGB_565
+            }
+
+            val decodedBitmap = BitmapFactory.decodeStream(it, null, bitmapConfig)
+
+            decodedBitmap?.let { memoryCache.put(url, decodedBitmap) }
 
             return@withContext decodedBitmap
         }
