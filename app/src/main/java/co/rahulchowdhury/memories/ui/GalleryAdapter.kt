@@ -1,8 +1,10 @@
 package co.rahulchowdhury.memories.ui
 
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +52,11 @@ class GalleryAdapter : PagedListAdapter<Photo, GalleryAdapter.ViewHolder>(PHOTOS
         }
 
         fun clearImage() {
-            itemView.photoItem.setImageBitmap(null)
+            val placeholderDrawable = ColorDrawable(
+                ContextCompat.getColor(itemView.context, android.R.color.darker_gray)
+            )
+
+            itemView.photoItem.setImageDrawable(placeholderDrawable)
         }
 
     }
