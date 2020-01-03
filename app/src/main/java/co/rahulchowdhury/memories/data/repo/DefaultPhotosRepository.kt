@@ -5,6 +5,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import co.rahulchowdhury.memories.data.Constants
 import co.rahulchowdhury.memories.data.model.local.Photo
+import co.rahulchowdhury.memories.data.model.remote.ResponseState
 import co.rahulchowdhury.memories.data.paging.PhotosBoundaryCallback
 import co.rahulchowdhury.memories.data.source.local.PhotosLocalSource
 import co.rahulchowdhury.memories.data.source.remote.PhotosRemoteSource
@@ -17,7 +18,7 @@ class DefaultPhotosRepository(
 
     override lateinit var coroutineScope: CoroutineScope
 
-    override fun loadPhotos(): LiveData<PagedList<Photo>> {
+    override fun loadPhotos(): Pair<LiveData<PagedList<Photo>>, LiveData<ResponseState>> {
         val photosDataSourceFactory = photosLocalSource.loadAll()
 
         val photosBoundaryCallback = PhotosBoundaryCallback(
@@ -31,9 +32,11 @@ class DefaultPhotosRepository(
             .setPageSize(Constants.Paging.PAGE_SIZE)
             .build()
 
-        return LivePagedListBuilder(photosDataSourceFactory, config)
+        val pagedList =  LivePagedListBuilder(photosDataSourceFactory, config)
             .setBoundaryCallback(photosBoundaryCallback)
             .build()
+
+        return Pair(pagedList, photosBoundaryCallback.networkResponseState)
     }
 
 }

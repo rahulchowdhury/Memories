@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import co.rahulchowdhury.memories.data.model.local.Photo
+import co.rahulchowdhury.memories.data.model.remote.ResponseState
 import co.rahulchowdhury.memories.data.repo.PhotosRepository
 
 class GalleryViewModel(
@@ -12,10 +13,14 @@ class GalleryViewModel(
 ) : ViewModel() {
 
     val photos: LiveData<PagedList<Photo>>
+    val error: LiveData<ResponseState>
 
     init {
         photosRepository.coroutineScope = viewModelScope
-        photos = photosRepository.loadPhotos()
+        val photosResponsePair = photosRepository.loadPhotos()
+
+        photos = photosResponsePair.first
+        error = photosResponsePair.second
     }
 
 }
