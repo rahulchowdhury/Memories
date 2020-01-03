@@ -34,11 +34,8 @@ val memoryCache: LruCache<String, BitmapDrawable> by lazy {
             newValue: BitmapDrawable?
         ) {
             if (oldValue is RecyclingBitmapDrawable) {
-                // The removed entry is a recycling drawable, so notify it
-                // that it has been removed from the memory cache.
                 oldValue.setIsCached(false)
             } else {
-                // The removed entry is a standard BitmapDrawable.
                 reusableBitmaps.add(SoftReference(oldValue.bitmap))
             }
         }
@@ -74,8 +71,8 @@ internal suspend fun loadIntoBitmap(resources: Resources, url: String): Bitmap? 
 internal fun markInBitmapOptions(options: BitmapFactory.Options) {
     options.inMutable = true
 
-    getBitmapFromReusableSet()?.also { inBitmap ->
-        options.inBitmap = inBitmap
+    getBitmapFromReusableSet()?.also { bitmap ->
+        options.inBitmap = bitmap
     }
 }
 
