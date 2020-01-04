@@ -19,6 +19,7 @@ object Constants {
 
     object Gallery {
         const val COLUMNS = 3
+        const val VIEW_CACHE_SIZE = 30
     }
 
 }

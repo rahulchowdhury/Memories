@@ -40,6 +40,7 @@ class GalleryFragment : BaseFragment() {
         photoGallery.layoutManager = GridLayoutManager(context, Constants.Gallery.COLUMNS)
         photoGallery.adapter = galleryAdapter
         photoGallery.setHasFixedSize(true)
+        photoGallery.setItemViewCacheSize(Constants.Gallery.VIEW_CACHE_SIZE)
     }
 
 }
