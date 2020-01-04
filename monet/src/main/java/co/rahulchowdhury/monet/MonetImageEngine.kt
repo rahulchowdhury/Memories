@@ -7,12 +7,15 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.collection.LruCache
 import androidx.core.graphics.drawable.toDrawable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.lang.ref.SoftReference
 import java.net.URL
 import java.util.*
 import kotlin.collections.HashSet
 
+val mutex = Mutex()
 val reusableBitmaps: MutableSet<SoftReference<Bitmap>> = Collections.synchronizedSet(
     HashSet<SoftReference<Bitmap>>()
 )
@@ -72,7 +75,7 @@ internal suspend fun loadIntoBitmap(resources: Resources, url: String): Bitmap? 
         }
     }
 
-internal fun markInBitmapOptions(options: BitmapFactory.Options) {
+internal suspend fun markInBitmapOptions(options: BitmapFactory.Options) {
     options.inMutable = true
 
     getBitmapFromReusableSet()?.also { bitmap ->
@@ -80,9 +83,9 @@ internal fun markInBitmapOptions(options: BitmapFactory.Options) {
     }
 }
 
-internal fun getBitmapFromReusableSet(): Bitmap? {
+internal suspend fun getBitmapFromReusableSet(): Bitmap? {
     reusableBitmaps.takeIf { it.isNotEmpty() }?.let { reusableBitmaps ->
-        synchronized(reusableBitmaps) {
+        mutex.withLock {
             val iterator: MutableIterator<SoftReference<Bitmap>> = reusableBitmaps.iterator()
             while (iterator.hasNext()) {
                 iterator.next().get()?.let { item ->

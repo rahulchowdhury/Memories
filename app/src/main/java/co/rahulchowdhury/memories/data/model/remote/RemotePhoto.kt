@@ -14,6 +14,5 @@ fun RemotePhoto.toPhoto() = Photo(
     // unique. Without this step DiffUtil will work
     // improperly when calculating list data diff.
     uuid = "${login.uuid}_${System.currentTimeMillis()}",
-    thumbnailUrl = picture.thumbnail,
     originalUrl = picture.large
 )
