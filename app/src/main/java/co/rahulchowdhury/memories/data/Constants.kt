@@ -13,13 +13,13 @@ object Constants {
     }
 
     object Paging {
-        const val FIRST_LOAD_SIZE = 180
+        const val FIRST_LOAD_SIZE = 270
         const val PAGE_SIZE = 90
     }
 
     object Gallery {
         const val COLUMNS = 3
-        const val VIEW_CACHE_SIZE = 30
+        const val VIEW_CACHE_SIZE = 45
     }
 
 }

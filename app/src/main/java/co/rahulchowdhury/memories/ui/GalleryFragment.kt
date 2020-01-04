@@ -24,6 +24,10 @@ class GalleryFragment : BaseFragment() {
         setupGalleryAdapter()
 
         viewModel.photos.observe(viewLifecycleOwner, Observer { pagedList ->
+            if (pagedList.isNotEmpty()) {
+                loadingAnimation.visibility = View.GONE
+            }
+
             galleryAdapter.submitList(pagedList)
         })
 

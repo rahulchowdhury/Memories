@@ -38,4 +38,5 @@ ext {
     truthVersion = "0.44"
     coroutinesVersion = "1.2.1"
     mockitoVersion = "3.0.0"
+    lottieVersion = "3.3.1"
 }

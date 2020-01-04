@@ -68,6 +68,9 @@ dependencies {
     // Monet - Custom image loading implementation
     implementation project(":monet")
 
+    // Lottie
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
     // Testing
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"

@@ -8,7 +8,12 @@ data class RemotePhoto(
 )
 
 fun RemotePhoto.toPhoto() = Photo(
-    uuid = login.uuid,
+    // We cannot rely on Random Users API to provide a
+    // unique ID. That's why we are concatenating the
+    // current time with the provided UUID to make it
+    // unique. Without this step DiffUtil will work
+    // improperly when calculating list data diff.
+    uuid = "${login.uuid}_${System.currentTimeMillis()}",
     thumbnailUrl = picture.thumbnail,
     originalUrl = picture.large
 )
