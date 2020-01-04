@@ -12,7 +12,9 @@ import co.rahulchowdhury.memories.data.model.remote.toPhoto
 import co.rahulchowdhury.memories.data.source.local.PhotosLocalSource
 import co.rahulchowdhury.memories.data.source.remote.PhotosRemoteSource
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.net.UnknownHostException
 
@@ -44,23 +46,25 @@ class PhotosBoundaryCallback(
         isLoadingData = true
 
         coroutineScope.launch {
-            try {
-                val remotePhotos = photosRemoteSource.fetchPhotos(
-                    limit = Constants.Remote.PAGE_SIZE,
-                    page = currentPage
-                )
+            withContext(Dispatchers.Default) {
+                try {
+                    val remotePhotos = photosRemoteSource.fetchPhotos(
+                        limit = Constants.Remote.PAGE_SIZE,
+                        page = currentPage
+                    )
 
-                val photos = remotePhotos.map { it.toPhoto() }
-                photosLocalSource.save(photos)
+                    val photos = remotePhotos.map { it.toPhoto() }
+                    photosLocalSource.save(photos)
 
-                currentPage++
-                isLoadingData = false
+                    currentPage++
+                    isLoadingData = false
 
-                _networkResponseState.value = Success
-            } catch (unknownHostException: UnknownHostException) {
-                _networkResponseState.value = Error("Not connected.")
-            } catch (httpException: HttpException) {
-                _networkResponseState.value = Error("Server error.")
+                    _networkResponseState.postValue(Success)
+                } catch (unknownHostException: UnknownHostException) {
+                    _networkResponseState.postValue(Error("Not connected."))
+                } catch (httpException: HttpException) {
+                    _networkResponseState.postValue(Error("Server error."))
+                }
             }
         }
     }

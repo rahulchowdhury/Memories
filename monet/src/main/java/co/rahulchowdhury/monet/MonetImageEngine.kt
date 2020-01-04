@@ -48,23 +48,27 @@ internal suspend fun loadIntoBitmap(resources: Resources, url: String): Bitmap? 
         val cachedBitmap = memoryCache[url]
         cachedBitmap?.let { return@withContext it.bitmap }
 
-        URL(url).openStream().use {
-            // We are not using decoding options to sample
-            // the sample the image here because the image
-            // coming from the server is already a low-res
-            // image. Therefore, we are intentionally skipping
-            // the extra processing (calculating bitmap dimens, etc)
-            val bitmapConfig = BitmapFactory.Options().apply {
-                inPreferredConfig = Bitmap.Config.RGB_565
+        try {
+            URL(url).openStream().use {
+                // We are not using decoding options to sample
+                // the sample the image here because the image
+                // coming from the server is already a low-res
+                // image. Therefore, we are intentionally skipping
+                // the extra processing (calculating bitmap dimens, etc)
+                val bitmapConfig = BitmapFactory.Options().apply {
+                    inPreferredConfig = Bitmap.Config.RGB_565
+                }
+
+                markInBitmapOptions(bitmapConfig)
+
+                val decodedBitmap = BitmapFactory.decodeStream(it, null, bitmapConfig)
+
+                decodedBitmap?.let { memoryCache.put(url, decodedBitmap.toDrawable(resources)) }
+
+                return@withContext decodedBitmap
             }
-
-            markInBitmapOptions(bitmapConfig)
-
-            val decodedBitmap = BitmapFactory.decodeStream(it, null, bitmapConfig)
-
-            decodedBitmap?.let { memoryCache.put(url, decodedBitmap.toDrawable(resources)) }
-
-            return@withContext decodedBitmap
+        } catch (exception: Exception) {
+            return@withContext null
         }
     }
 
