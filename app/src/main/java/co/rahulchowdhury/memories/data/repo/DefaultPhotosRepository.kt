@@ -30,9 +30,10 @@ class DefaultPhotosRepository(
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(Constants.Paging.FIRST_LOAD_SIZE)
             .setPageSize(Constants.Paging.PAGE_SIZE)
+            .setPrefetchDistance(Constants.Paging.PREFETCH_DISTANCE)
             .build()
 
-        val pagedList =  LivePagedListBuilder(photosDataSourceFactory, config)
+        val pagedList = LivePagedListBuilder(photosDataSourceFactory, config)
             .setBoundaryCallback(photosBoundaryCallback)
             .build()
 

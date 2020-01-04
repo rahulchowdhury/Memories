@@ -15,11 +15,12 @@ object Constants {
     object Paging {
         const val FIRST_LOAD_SIZE = 270
         const val PAGE_SIZE = 90
+        const val PREFETCH_DISTANCE = 180
     }
 
     object Gallery {
-        const val COLUMNS = 3
-        const val VIEW_CACHE_SIZE = 45
+        const val COLUMNS = 4
+        const val VIEW_CACHE_SIZE = 60
     }
 
 }
