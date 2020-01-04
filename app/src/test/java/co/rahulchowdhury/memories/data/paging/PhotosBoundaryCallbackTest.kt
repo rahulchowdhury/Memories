@@ -14,6 +14,7 @@ import okhttp3.ResponseBody
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -49,8 +50,6 @@ class PhotosBoundaryCallbackTest {
                 )
             )
 
-            val photos = remotePhotos.map { it.toPhoto() }
-
             photosBoundaryCallback = PhotosBoundaryCallback(
                 this,
                 photosLocalSource,
@@ -68,7 +67,7 @@ class PhotosBoundaryCallbackTest {
                 page
             )
 
-            verify(photosLocalSource).save(photos)
+            verify(photosLocalSource).save(anyList())
 
             val networkResponseState = getValue(photosBoundaryCallback.networkResponseState)
             assertThat(networkResponseState).isInstanceOf(Success::class.java)
@@ -91,8 +90,6 @@ class PhotosBoundaryCallbackTest {
                 )
             )
 
-            val photos = remotePhotos.map { it.toPhoto() }
-
             photosBoundaryCallback = PhotosBoundaryCallback(
                 this,
                 photosLocalSource,
@@ -104,7 +101,6 @@ class PhotosBoundaryCallbackTest {
             photosBoundaryCallback.onItemAtEndLoaded(
                 Photo(
                     uuid = "",
-                    thumbnailUrl = "",
                     originalUrl = ""
                 )
             )
@@ -116,7 +112,7 @@ class PhotosBoundaryCallbackTest {
                 page
             )
 
-            verify(photosLocalSource).save(photos)
+            verify(photosLocalSource).save(anyList())
 
             val networkResponseState = getValue(photosBoundaryCallback.networkResponseState)
             assertThat(networkResponseState).isInstanceOf(Success::class.java)
@@ -146,7 +142,6 @@ class PhotosBoundaryCallbackTest {
             photosBoundaryCallback.onItemAtEndLoaded(
                 Photo(
                     uuid = "",
-                    thumbnailUrl = "",
                     originalUrl = ""
                 )
             )
@@ -191,7 +186,6 @@ class PhotosBoundaryCallbackTest {
             photosBoundaryCallback.onItemAtEndLoaded(
                 Photo(
                     uuid = "",
-                    thumbnailUrl = "",
                     originalUrl = ""
                 )
             )

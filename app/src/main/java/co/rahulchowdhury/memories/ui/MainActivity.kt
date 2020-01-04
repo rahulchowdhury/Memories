@@ -1,7 +1,8 @@
-package co.rahulchowdhury.memories
+package co.rahulchowdhury.memories.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import co.rahulchowdhury.memories.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -9,4 +10,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+
 }

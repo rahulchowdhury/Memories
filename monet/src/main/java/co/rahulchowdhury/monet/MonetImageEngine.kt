@@ -36,11 +36,7 @@ val memoryCache: LruCache<String, BitmapDrawable> by lazy {
             oldValue: BitmapDrawable,
             newValue: BitmapDrawable?
         ) {
-            if (oldValue is RecyclingBitmapDrawable) {
-                oldValue.setIsCached(false)
-            } else {
-                reusableBitmaps.add(SoftReference(oldValue.bitmap))
-            }
+            reusableBitmaps.add(SoftReference(oldValue.bitmap))
         }
 
     }

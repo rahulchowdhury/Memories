@@ -62,7 +62,7 @@ class PhotosBoundaryCallback(
                     _networkResponseState.postValue(Success)
                 } catch (unknownHostException: UnknownHostException) {
                     _networkResponseState.postValue(Error("Not connected."))
-                } catch (httpException: HttpException) {
+                } catch (exception: Exception) {
                     _networkResponseState.postValue(Error("Server error."))
                 }
             }

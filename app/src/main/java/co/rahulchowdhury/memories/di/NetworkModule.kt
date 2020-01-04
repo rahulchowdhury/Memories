@@ -1,5 +1,6 @@
 package co.rahulchowdhury.memories.di
 
+import co.rahulchowdhury.memories.BuildConfig
 import co.rahulchowdhury.memories.data.Constants
 import co.rahulchowdhury.memories.data.source.remote.RandomUsersApiService
 import okhttp3.OkHttpClient
@@ -26,7 +27,10 @@ private fun provideOkHttpClient(
     httpLoggingInterceptor: HttpLoggingInterceptor
 ): OkHttpClient {
     val okHttpClientBuilder = OkHttpClient.Builder()
-    okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
+
+    if (BuildConfig.DEBUG) {
+        okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
+    }
 
     return okHttpClientBuilder.build()
 }
